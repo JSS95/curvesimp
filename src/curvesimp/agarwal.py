@@ -16,7 +16,50 @@ EPSILON = np.finfo(np.float64).eps
 @njit(cache=True)
 def min_num(curve, err):
     """Simplification to minimum vertex number with given error."""
-    return curve[FS(curve, err)]
+    ij = 0
+    ret = np.empty(len(curve), dtype=np.int_)
+    count = 0
+
+    ret[count] = ij
+    count += 1
+
+    n = len(curve)
+    while ij < n - 1:
+        L = 0
+        high = min(2 ** (L + 1), n - ij - 1)
+        all_ok = False
+        while decision_problem(
+            np.concatenate((curve[ij : ij + 1], curve[ij + high - 1 : ij + high])),
+            curve[ij : ij + high + 1],
+            err,
+        ):
+            if high == n - ij - 1:
+                # stop because all remaining vertices can be skipped
+                all_ok = True
+                break
+            L += 1
+            high = min(2 ** (L + 1), n - ij - 1)
+
+        if all_ok:
+            ret[count] = n - 1
+            count += 1
+            break
+
+        low = max(1, high // 2)
+        while low < high - 1:
+            mid = (low + high) // 2
+            if decision_problem(
+                np.concatenate((curve[ij : ij + 1], curve[ij + mid - 1 : ij + mid])),
+                curve[ij : ij + mid + 1],
+                err,
+            ):
+                low = mid
+            else:
+                high = mid
+        ij += min(low, n - ij - 1)
+        ret[count] = ij
+        count += 1
+    return curve[ret[:count]]
 
 
 @njit(cache=True)
@@ -44,51 +87,3 @@ def min_err(curve, ell):
             thres_high = thres
 
     return simp_vert, thres
-
-
-@njit(cache=True)
-def FS(P, epsilon):
-    ij = 0
-    ret = np.empty(len(P), dtype=np.int_)
-    count = 0
-
-    ret[count] = ij
-    count += 1
-
-    n = len(P)
-    while ij < n - 1:
-        L = 0
-        high = min(2 ** (L + 1), n - ij - 1)
-        all_ok = False
-        while decision_problem(
-            np.concatenate((P[ij : ij + 1], P[ij + high - 1 : ij + high])),
-            P[ij : ij + high + 1],
-            epsilon,
-        ):
-            if high == n - ij - 1:
-                # stop because all remaining vertices can be skipped
-                all_ok = True
-                break
-            L += 1
-            high = min(2 ** (L + 1), n - ij - 1)
-
-        if all_ok:
-            ret[count] = n - 1
-            count += 1
-            break
-
-        low = max(1, high // 2)
-        while low < high - 1:
-            mid = (low + high) // 2
-            if decision_problem(
-                np.concatenate((P[ij : ij + 1], P[ij + mid - 1 : ij + mid])),
-                P[ij : ij + mid + 1],
-                epsilon,
-            ):
-                low = mid
-            else:
-                high = mid
-        ij += min(low, n - ij - 1)
-        ret[count] = ij
-        count += 1
-    return ret[:count]
