@@ -14,8 +14,18 @@ author = "Jisoo Song"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+    "numpydoc",
     "matplotlib.sphinxext.plot_directive",
 ]
+
+autodoc_member_order = "bysource"
+
+numpydoc_use_plots = True
+numpydoc_show_class_members = False
+numpydoc_show_inherited_class_members = False
+numpydoc_class_members_toctree = False
 
 plot_include_source = True
 

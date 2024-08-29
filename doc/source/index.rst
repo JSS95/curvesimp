@@ -12,6 +12,22 @@ CurveSimplify documentation
 .. plot:: plot-header.py
     :include-source: False
 
+A collection of polygonal curve simplifying algorithms.
+
+API reference
+=============
+
+Imai-Iri algorithm
+------------------
+
+.. automodule:: curvesimplify.imaiiri
+    :members:
+
+Agarwal's algorithm
+-------------------
+
+.. automodule:: curvesimplify.agarwal
+    :members:
 
 Indices and tables
 ==================
