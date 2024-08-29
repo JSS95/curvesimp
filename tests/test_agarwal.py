@@ -1,4 +1,4 @@
-from curvesimp.agarwal import min_err
+from curvesimplify.agarwal import min_err
 
 
 def test_min_err(vert):

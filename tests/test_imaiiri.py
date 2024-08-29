@@ -1,4 +1,4 @@
-from curvesimp.imaiiri import min_err
+from curvesimplify.imaiiri import min_err
 
 
 def test_min_err(vert):

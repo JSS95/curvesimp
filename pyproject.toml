@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "curvesimp"
+name = "curvesimplify"
 version = "0.0.0"
 authors = [
     {name = "Jisoo Song", email = "jeesoo9595@snu.ac.kr"}
@@ -35,8 +35,8 @@ dependencies = [
 ]
 
 [project.urls]
-homepage = "https://github.com/JSS95/curvesimp"
-source = "https://github.com/JSS95/curvesimp"
+homepage = "https://github.com/JSS95/curvesimplify"
+source = "https://github.com/JSS95/curvesimplify"
 
 [project.optional-dependencies]
 test = [
@@ -55,7 +55,7 @@ dev = [
     "isort",
     "docformatter",
     "doc8",
-    "curvesimp[test,doc]",
+    "curvesimplify[test,doc]",
 ]
 
 [tool.setuptools.packages.find]

@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "CurveSimp"
+project = "CurveSimplify"
 copyright = "2024, Jisoo Song"
 author = "Jisoo Song"
 
@@ -25,9 +25,9 @@ plot_include_source = True
 html_theme = "pydata_sphinx_theme"
 
 html_theme_options = {
-    "github_url": "https://github.com/JSS95/curvesimp",
+    "github_url": "https://github.com/JSS95/curvesimplify",
     "logo": {
-        "text": "CurveSimp",
+        "text": "CurveSimplify",
     },
     "show_toc_level": 3,
 }

@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from curvesimp.imaiiri import min_err
+from curvesimplify.imaiiri import min_err
 
 x = np.linspace(0, 5, 50)
 f = np.exp(-x) * np.cos(2 * np.pi * x)
