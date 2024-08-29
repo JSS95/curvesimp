@@ -9,4 +9,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Agarwal's greedy algorithm (`curvesimplify.agarwal`).
+- Imai-Iri algorithm (`curvesimplify.imaiiri`).
+- Agarwal's algorithm (`curvesimplify.agarwal`).

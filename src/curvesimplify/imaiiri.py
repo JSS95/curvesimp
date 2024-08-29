@@ -1,4 +1,4 @@
-"""Graph-based simplification be Imai and Iri."""
+"""Graph-based simplification by Imai and Iri."""
 
 import numpy as np
 from curvesimilarities.frechet import decision_problem, fd
@@ -14,10 +14,10 @@ EPSILON = np.finfo(np.float64).eps
 
 
 @njit(cache=True)
-def min_num(curve, err, dist="frechet"):
+def min_num(curve, err, err_type="frechet"):
     """Simplification to minimum vertex number with given error."""
     G = np.empty((len(curve), len(curve)), dtype=np.bool_)
-    if dist == "frechet":
+    if err_type == "frechet":
         for i in range(G.shape[0] - 1):
             G[i, i + 1] = 1
             for j in range(i + 2, G.shape[1]):
@@ -58,10 +58,10 @@ def _traverse_graph(curve, G):
 
 
 @njit(cache=True)
-def min_err(curve, ell, dist="frechet"):
+def min_err(curve, ell, err_type="frechet"):
     """Simplification to minimum error with given number of vertices."""
     G = np.empty((len(curve), len(curve)), dtype=np.float64)
-    if dist == "frechet":
+    if err_type == "frechet":
         for i in range(G.shape[0] - 1):
             G[i, i + 1] = 0
             for j in range(i + 2, G.shape[1]):
