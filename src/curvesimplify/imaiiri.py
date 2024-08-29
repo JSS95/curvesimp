@@ -1,4 +1,13 @@
-"""Graph-based simplification by Imai and Iri."""
+"""Simplification algorithm by Imai and Iri [1]_.
+
+This is a graph-based algorithm, slow but accurate.
+
+References
+----------
+.. [1] Imai, Hiroshi, and Iri, Masao. "Polygonal approximations of a
+   curve — formulations and algorithms." Machine Intelligence and Pattern Recognition.
+   Vol. 6. North-Holland, 1988. 71-86.
+"""
 
 import numpy as np
 from curvesimilarities.frechet import decision_problem, fd
@@ -15,7 +24,24 @@ EPSILON = np.finfo(np.float64).eps
 
 @njit(cache=True)
 def min_num(curve, err, err_type="frechet"):
-    """Simplification to minimum vertex number with given error."""
+    r"""Imai-Iri min-:math:`\#` simplification.
+
+    Parameters
+    ----------
+    curve : ndarray
+        A :math:`p` by :math:`n` array of :math:`p` points in an :math:`n`-dimensional
+        space.
+    err : double
+        Error threshold.
+    err_type : {'frechet'}
+        Error type. Refer to the package docstring.
+
+    Returns
+    -------
+    simp : ndarray
+        An :math:`\ell \le p` by :math:`n` array of :math:`\ell` points in an
+        :math:`n`-dimensional space.
+    """
     G = np.empty((len(curve), len(curve)), dtype=np.bool_)
     if err_type == "frechet":
         for i in range(G.shape[0] - 1):
@@ -29,15 +55,15 @@ def min_num(curve, err, err_type="frechet"):
     path_count, predecessor = _traverse_graph(curve, G)
 
     # Backtracking
-    ret = np.empty((path_count[-1], curve.shape[1]), dtype=curve.dtype)
-    ret_idx = len(ret) - 1
+    simp = np.empty((path_count[-1], curve.shape[1]), dtype=curve.dtype)
+    ret_idx = len(simp) - 1
     curve_idx = len(curve) - 1
     while ret_idx >= 0:
-        ret[ret_idx] = curve[curve_idx]
+        simp[ret_idx] = curve[curve_idx]
         curve_idx = predecessor[curve_idx]
         ret_idx -= 1
 
-    return ret
+    return simp
 
 
 @njit(cache=True)
@@ -59,7 +85,26 @@ def _traverse_graph(curve, G):
 
 @njit(cache=True)
 def min_err(curve, ell, err_type="frechet"):
-    """Simplification to minimum error with given number of vertices."""
+    r"""Imai-Iri min-:math:`\epsilon` simplification.
+
+    Parameters
+    ----------
+    curve : ndarray
+        A :math:`p` by :math:`n` array of :math:`p` points in an :math:`n`-dimensional
+        space.
+    ell : double
+        Desired number of vertices of simplification result.
+    err_type : {'frechet'}
+        Error type. Refer to the package docstring.
+
+    Returns
+    -------
+    simp : ndarray
+        An :math:`p' \le \ell` by :math:`n` array of :math:`p'` points in an
+        :math:`n`-dimensional space.
+    err : double
+        Simplification error.
+    """
     G = np.empty((len(curve), len(curve)), dtype=np.float64)
     if err_type == "frechet":
         for i in range(G.shape[0] - 1):
@@ -84,12 +129,12 @@ def min_err(curve, ell, err_type="frechet"):
     err = crit_val[end]
 
     # Backtracking
-    ret = np.empty((path_count[-1], curve.shape[1]), dtype=curve.dtype)
-    ret_idx = len(ret) - 1
+    simp = np.empty((path_count[-1], curve.shape[1]), dtype=curve.dtype)
+    ret_idx = len(simp) - 1
     curve_idx = len(curve) - 1
     while ret_idx >= 0:
-        ret[ret_idx] = curve[curve_idx]
+        simp[ret_idx] = curve[curve_idx]
         curve_idx = predecessor[curve_idx]
         ret_idx -= 1
 
-    return ret, err
+    return simp, err

@@ -3,8 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. module:: curvesimplify
-
 ***************************
 CurveSimplify documentation
 ***************************
@@ -12,10 +10,19 @@ CurveSimplify documentation
 .. plot:: plot-header.py
     :include-source: False
 
-A collection of polygonal curve simplifying algorithms.
+Python package for polygonal curve simplification.
+
+Installation
+============
+
+CurveSimplify can be installed using `pip`::
+
+    pip install curvesimplify
 
 API reference
 =============
+
+.. automodule:: curvesimplify
 
 Imai-Iri algorithm
 ------------------
