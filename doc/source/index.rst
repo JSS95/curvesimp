@@ -10,7 +10,7 @@ CurveSimplify documentation
 .. plot:: plot-header.py
     :include-source: False
 
-Python package for polygonal curve simplification.
+.. automodule:: curvesimplify
 
 Installation
 ============
@@ -21,8 +21,6 @@ CurveSimplify can be installed using `pip`::
 
 API reference
 =============
-
-.. automodule:: curvesimplify
 
 Imai-Iri algorithm
 ------------------
